@@ -20,6 +20,15 @@ Following the event of disasters, there's a flood of millions of messages millio
 
 This project uses real messages that were sent during disaster events from Appen (formally Figure 8) to build that model. The model is then made available as an API and deployed into a web app where an emergency worker can input a new message and get classification results in several categories. The web app will also display visualizations of the data.
 
+### Sample messages
+
+`We have about 500 people in a temporary shelter and we are in dire need of Water, Food, Medications, Tents and Clothes. Please stop by and see us.`
+
+### Web demo
+
+![Input message](input.png)
+![Classification Result](result.png)
+
 ## File Descriptions <a name="files"></a>
 
 Here's the file structure of the project:
