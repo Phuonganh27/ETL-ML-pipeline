@@ -50,10 +50,16 @@ def clean_data(df):
     # rename the columns of `categories`
     categories.columns = category_colnames
 
-    # Convert category values to just numbers 0 or 1.
+    # Convert category values to just numbers.
     get_last = lambda x: int(x[-1])
     for column in categories:
         categories[column] = categories[column].apply(get_last)
+        
+    # Removes rows whose category values are not 0 or 1
+    get_binary = lambda x: x if x in [0, 1] else np.nan
+    for col in categories.columns:
+        categories[col] = categories[col].apply(get_binary)
+    categories.dropna(inplace=True)
 
     # Replace `categories` column in `df` with new category columns.
     df.drop(columns = ['categories'], inplace=True)
