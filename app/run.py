@@ -22,6 +22,22 @@ nltk.download('wordnet')
 app = Flask(__name__)
 
 def tokenize(text):
+    """
+    Tokenize and preprocess a given text.
+    This function performs the following tasks:
+    1. Converts the text to lowercase.
+    2. Removes non-alphanumeric characters and replaces them with spaces.
+    3. Tokenizes the text into words.
+    4. Removes punctuation.
+    5. Removes common English stopwords.
+    6. Lemmatizes the tokens.
+
+    Args:
+        text (str): The input text to be tokenized.
+
+    Returns:
+        list: A list of preprocessed and tokenized words.
+    """
     # Tokenize the text into words
     text = text.lower()
     text = re.sub(r'[^A-Za-z0-9]', ' ', text)
