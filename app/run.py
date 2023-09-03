@@ -72,7 +72,7 @@ def index():
     categories = df.columns.difference(['id', 'message', 'original', 'genre'])
     for col in categories:
         counts = df.groupby(col).count()['message']
-        names = ['yes', 'no']
+        names = ['no', 'yes']
         graph_object = {
             'data': [
                 Bar(
