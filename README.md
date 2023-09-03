@@ -3,10 +3,10 @@
 ### Table of Contents
 
 1. [Installation](#installation)
-2. [Instructions](#Instruction)
-3. [Project Motivation](#motivation)
-4. [File Descriptions](#files)
-5. [Results](#results)
+2. [Project Overview](#overview)
+3. [File Descriptions](#files)
+4. [Project Components](#components)
+5. [Instructions](#instructions)
 6. [Licensing, Authors, and Acknowledgements](#licensing)
 
 ## Installation <a name="installation"></a>
@@ -24,36 +24,39 @@ This project uses real messages that were sent during disaster events from Appen
 
 Here's the file structure of the project:
 
-- app
-  | - templates
-  | |- master.html # main page of web app
-  | |- go.html # classification result page of web app
-  |- run.py # Flask file that runs app
+- **app**
 
-- data
-  |- disaster_categories.csv # data to process
-  |- disaster_messages.csv # data to process
-  |- process_data.py
-  |- InsertDatabaseName.db # database to save clean data to
+  - `templates`
+    - `master.html`: Main page of the web app
+    - `go.html`: Classification result page of the web app
+  - `run.py`: Flask file that runs the app
 
-- models
-  |- train_classifier.py
-  |- classifier.pkl # saved model
+- **data**
 
-- README.md
-- requirements.txt
-- .gitignore
+  - `disaster_categories.csv`: Data to process
+  - `disaster_messages.csv`: Data to process
+  - `process_data.py`
+  - `InsertDatabaseName.db`: Database to save clean data to
 
-## Project Components <a name="results"></a>
+- **models**
+
+  - `train_classifier.py`
+  - `classifier.pkl`: Saved model
+
+- `README.md`
+- `requirements.txt`
+- `.gitignore`
+
+## Project Components <a name="components"></a>
 
 - ETL pipeline:
-  'process_data.py' will read the dataset, clean the data, and then store it in a SQLite database.
+  `process_data.py` will read the dataset, clean the data, and then store it in a SQLite database.
 - ML pipeline:
-  'train_classifier.py' creates a machine learning pipeline that uses NLTK, as well as scikit-learn's Pipeline and GridSearchCV to output a final model that uses the message column to predict classifications for 36 categories (multi-output classification). Finally, the model is exported to a pickle file.
+  `train_classifier.py` creates a machine learning pipeline that uses NLTK, as well as scikit-learn's Pipeline and GridSearchCV to output a final model that uses the message column to predict classifications for 36 categories (multi-output classification). Finally, the model is exported to a pickle file.
 - Flask App:
   The flask app displays the results. Users can input a message to get its categorization.
 
-## Instructions:
+## Instructions <a name="instructions"></a>
 
 1. Run the following commands in the project's root directory to set up your database and model.
 
