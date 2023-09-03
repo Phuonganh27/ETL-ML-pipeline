@@ -25,6 +25,18 @@ nltk.download('wordnet')
 
 
 def load_data(database_filepath):
+    """
+    Load data from an SQLite database and prepare it for machine learning.
+
+    Args:
+        database_filepath (str): The filename of the SQLite database.
+
+    Returns:
+        tuple: A tuple containing the following elements:
+            - X (pandas.Series): The message data.
+            - y (pandas.DataFrame): The category data.
+            - category_names (list): List of category column names.
+    """
     engine = create_engine(f'sqlite:///{database_filepath}')
     df = pd.read_sql_table(table_name='CleanData', con=engine)
     X = df['message']
@@ -33,6 +45,22 @@ def load_data(database_filepath):
     return X, y, category_names
 
 def tokenize(text):
+    """
+    Tokenize and preprocess a given text.
+    This function performs the following tasks:
+    1. Converts the text to lowercase.
+    2. Removes non-alphanumeric characters and replaces them with spaces.
+    3. Tokenizes the text into words.
+    4. Removes punctuation.
+    5. Removes common English stopwords.
+    6. Lemmatizes the tokens.
+
+    Args:
+        text (str): The input text to be tokenized.
+
+    Returns:
+        list: A list of preprocessed and tokenized words.
+    """
     # Tokenize the text into words
     text = text.lower()
     text = re.sub(r'[^A-Za-z0-9]', ' ', text)
@@ -52,6 +80,18 @@ def tokenize(text):
     return tokens
 
 def build_model():
+    """
+    Build a machine learning pipeline for multi-output classification.
+
+    This function creates a scikit-learn pipeline that includes the following steps:
+    1. Tokenization using the `tokenize` function.
+    2. Vectorization using CountVectorizer.
+    3. TF-IDF transformation.
+    4. Multi-output classification using RandomForestClassifier.
+
+    Returns:
+        pipelone (sklearn.pipeline.Pipeline): A machine learning pipeline for multi-output classification.
+    """
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
         ('tf', TfidfTransformer()),
@@ -70,6 +110,21 @@ def build_model():
 
 
 def evaluate_model(model, X_test, y_test, category_names):
+    """
+    Evaluate a multi-output classification model and print classification reports.
+
+    This function takes a trained multi-output classification model, test data, and category names,
+    and prints a classification report for each category.
+
+    Args:
+        model: A trained multi-output classification model.
+        X_test (pandas.Series): The test data for model evaluation.
+        y_test (pandas.DataFrame): The true labels for the test data.
+        category_names (list): List of category names.
+
+    Returns:
+        None
+    """
     y_pred = model.predict(X_test)
     # Loop through each column
     for i, col in enumerate(category_names):
@@ -89,6 +144,16 @@ def evaluate_model(model, X_test, y_test, category_names):
 
 
 def save_model(model, model_filepath):
+    """
+    Save a trained machine learning model to a file using pickle.
+
+    Args:
+        model: The trained machine learning model to be saved.
+        model_filepath (str): The filepath where the model will be saved.
+
+    Returns:
+        None
+    """
     with open(model_filepath, 'wb') as file:
         pickle.dump(model, file)
 
