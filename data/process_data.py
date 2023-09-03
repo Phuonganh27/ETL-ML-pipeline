@@ -4,6 +4,16 @@ from sqlalchemy import create_engine
 
 
 def load_data(messages_filepath, categories_filepath):
+    """
+    Load data from CSV files and merge message and category data into a single dataframe.
+
+    Args:
+        messages_filepath (str): Filepath to the CSV file containing message data.
+        categories_filepath (str): Filepath to the CSV file containing category data.
+
+    Returns:
+        df : A DataFrame containing merged data from both files.
+    """
     # load messages dataset
     messages = pd.read_csv(messages_filepath)
     # load categories dataset
@@ -14,6 +24,22 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+    """
+    Clean and preprocess a DataFrame containing message and category data.
+
+    This function performs the following tasks:
+    1. Splits the 'categories' column into 36 individual category columns.
+    2. Renames the category columns based on the first row values.
+    3. Converts category values to binary (0 or 1).
+    4. Replaces the 'categories' column with the new category columns.
+    5. Removes duplicate rows.
+
+    Args:
+        df: The input DataFrame containing message and category data.
+
+    Returns:
+        df: A cleaned DataFrame with individual category columns and no duplicates.
+    """
     # create a dataframe of the 36 individual category columns
     categories = df['categories'].str.split(';', expand=True)
 
@@ -39,6 +65,15 @@ def clean_data(df):
     return df
 
 def save_data(df, database_filename):
+    """
+    Save a DataFrame to an SQLite database.
+    Args:
+        df: The DataFrame to be saved to the database.
+        database_filename (str): The filename for the SQLite database.
+
+    Returns:
+        None
+    """
     engine = create_engine(f'sqlite:///{database_filename}')
     df.to_sql('CleanData', engine, index=False)
 
