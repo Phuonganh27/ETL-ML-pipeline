@@ -17,7 +17,7 @@ from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.metrics import classification_report
-
+import re 
 import nltk
 nltk.download('punkt')
 nltk.download('stopwords')
@@ -33,20 +33,13 @@ def load_data(database_filepath):
     return X, y, category_names
 
 def tokenize(text):
-    """
-    Tokenize and preprocess input text data.
-
-    Args:
-        text (str): Input text to tokenize.
-
-    Returns:
-        list: List of preprocessed tokens.
-    """
     # Tokenize the text into words
+    text = text.lower()
+    text = re.sub(r'[^A-Za-z0-9]', ' ', text)
     tokens = word_tokenize(text)
 
-    # Remove punctuation and convert to lowercase
-    tokens = [token.lower() for token in tokens if token not in string.punctuation]
+    # Remove punctuation 
+    tokens = [token for token in tokens if token not in string.punctuation]
 
     # Remove stopwords
     stop_words = set(stopwords.words("english"))

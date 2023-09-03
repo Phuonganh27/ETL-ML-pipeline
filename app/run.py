@@ -6,7 +6,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 import string
-
+import re 
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
@@ -22,20 +22,13 @@ nltk.download('wordnet')
 app = Flask(__name__)
 
 def tokenize(text):
-    """
-    Tokenize and preprocess input text data.
-
-    Args:
-        text (str): Input text to tokenize.
-
-    Returns:
-        list: List of preprocessed tokens.
-    """
     # Tokenize the text into words
+    text = text.lower()
+    text = re.sub(r'[^A-Za-z0-9]', ' ', text)
     tokens = word_tokenize(text)
 
-    # Remove punctuation and convert to lowercase
-    tokens = [token.lower() for token in tokens if token not in string.punctuation]
+    # Remove punctuation 
+    tokens = [token for token in tokens if token not in string.punctuation]
 
     # Remove stopwords
     stop_words = set(stopwords.words("english"))
